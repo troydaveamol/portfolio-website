@@ -179,6 +179,146 @@ const contactForm = document.getElementById('contact-form'),
 
     contactForm.addEventListener('submit', sendEmail);
 
+/*==================== PORTFOLIO VIEWER MODAL ====================*/
+const portfolioModal = document.getElementById('portfolio-modal'),
+      portfolioIframe = document.getElementById('portfolio-iframe'),
+      portfolioClose = document.getElementById('portfolio-modal-close'),
+      portfolioSpinner = document.getElementById('portfolio-spinner');
+
+let preloadTimeout = null;
+let spinnerTimeout = null;
+
+// Convert Google Drive URL to embeddable format
+function convertDriveUrl(url) {
+  // File URL: /file/d/ID/view -> /file/d/ID/preview
+  const fileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (fileMatch) {
+    return `https://drive.google.com/file/d/${fileMatch[1]}/preview`;
+  }
+
+  // Folder URL: /folders/ID or /drive/folders/ID -> embeddedfolderview
+  const folderMatch = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  if (folderMatch) {
+    return `https://drive.google.com/embeddedfolderview?id=${folderMatch[1]}#grid`;
+  }
+
+  return null;
+}
+
+function openPortfolioModal(embedUrl) {
+  if (portfolioIframe.src !== embedUrl) {
+    portfolioSpinner.classList.remove('hidden');
+    portfolioIframe.src = embedUrl;
+  }
+  
+  portfolioModal.classList.add('show-portfolio-modal');
+  document.body.style.overflow = 'hidden';
+
+  // Safety fallback: hide spinner after 8 seconds of modal opening if loading is slow
+  if (!portfolioSpinner.classList.contains('hidden')) {
+    clearTimeout(spinnerTimeout);
+    spinnerTimeout = setTimeout(() => {
+      portfolioSpinner.classList.add('hidden');
+    }, 8000);
+  }
+}
+
+function closePortfolioModal() {
+  portfolioModal.classList.remove('show-portfolio-modal');
+  portfolioIframe.src = '';
+  portfolioSpinner.classList.remove('hidden');
+  document.body.style.overflow = '';
+  if (spinnerTimeout) {
+    clearTimeout(spinnerTimeout);
+    spinnerTimeout = null;
+  }
+}
+
+// Hide spinner when iframe finishes loading
+portfolioIframe.addEventListener('load', () => {
+  if (portfolioIframe.src) {
+    portfolioSpinner.classList.add('hidden');
+    if (spinnerTimeout) {
+      clearTimeout(spinnerTimeout);
+      spinnerTimeout = null;
+    }
+  }
+});
+
+// Intercept work-link clicks
+document.querySelectorAll('.work-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+
+    // Only intercept Google Drive links
+    if (href && href.includes('drive.google.com')) {
+      const isFolder = href.includes('/folders/') || href.includes('/drive/folders/');
+
+      if (isFolder) {
+        // Folders (Emails & Scripts) open directly in a new tab
+        e.preventDefault();
+        window.open(href, '_blank');
+      } else {
+        // Files open inside the in-app modal
+        e.preventDefault();
+        const embedUrl = convertDriveUrl(href);
+        if (embedUrl) {
+          openPortfolioModal(embedUrl);
+        } else {
+          window.open(href, '_blank');
+        }
+      }
+    }
+  });
+});
+
+// Preload on hovering over portfolio cards (gives iframe a head start before clicking View)
+document.querySelectorAll('.work-card').forEach(card => {
+  card.addEventListener('mouseenter', () => {
+    const link = card.querySelector('.work-link');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (href && href.includes('drive.google.com')) {
+      const isFolder = href.includes('/folders/') || href.includes('/drive/folders/');
+      // Only preload files (folders open directly in a new tab)
+      if (!isFolder) {
+        const embedUrl = convertDriveUrl(href);
+        // Only preload if it's different from the currently loaded/loading URL
+        if (embedUrl && portfolioIframe.src !== embedUrl) {
+          clearTimeout(preloadTimeout);
+          // Debounce 150ms to prevent preloading during rapid mouse movement/scrolling
+          preloadTimeout = setTimeout(() => {
+            portfolioSpinner.classList.remove('hidden');
+            portfolioIframe.src = embedUrl;
+          }, 150);
+        }
+      }
+    }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    clearTimeout(preloadTimeout);
+  });
+});
+
+// Close via X button
+portfolioClose.addEventListener('click', closePortfolioModal);
+
+// Close on clicking outside the content
+portfolioModal.addEventListener('click', (e) => {
+  if (e.target === portfolioModal) {
+    closePortfolioModal();
+  }
+});
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && portfolioModal.classList.contains('show-portfolio-modal')) {
+    closePortfolioModal();
+  }
+});
+
 /*==================== SCROLL REVEAL ANIMATION ====================*/
 const sr = ScrollReveal({
   origin: 'top',
@@ -192,6 +332,7 @@ sr.reveal('.home-data');
 sr.reveal('.home-img-wrapper', { delay: 500 });
 sr.reveal('.home-social', { delay: 600 });
 sr.reveal('.services-card, .mix', { interval: 100 });
+sr.reveal('.proof-card', { interval: 100 });
 sr.reveal('.skills-developer, .resume-left, .contact-group', { 
   origin: 'left', 
 });
