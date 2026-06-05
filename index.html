@@ -350,56 +350,108 @@
 
 
       <!--=============== CASE STUDIES ===============-->
-      <section class="testimonials section" id="testimonials">
+      <section class="proof section" id="case-studies">
           <h2 class="section-title">Case Studies</h2>
 
-          <div class="testimonials-container container grid">
-            <div class="testimonial-card">
-              <img src="assets/img/Case Study1_00000.jpg" alt="Testimonial 1" class="testimonial-img">
+          <div class="proof-container container grid">
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Case Study1_00000.jpg" alt="Case Study 1 — Email campaign results" class="proof-img">
+              </div>
             </div>
 
-            <div class="testimonial-card">
-              <img src="assets/img/Case Study2_00000.jpg" alt="Testimonial 2" class="testimonial-img">
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Case Study2_00000.jpg" alt="Case Study 2 — Conversion rate proof" class="proof-img">
+              </div>
             </div>
 
-            <div class="testimonial-card">
-              <img src="assets/img/Case Study3_00000.jpg" alt="Testimonial 3" class="testimonial-img">
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Case Study3_00000.jpg" alt="Case Study 3 — ROI metrics" class="proof-img">
+              </div>
             </div>
           </div>
-        </section>
-
+      </section>
 
 
 
       <!--=============== TESTIMONIALS ===============-->
-        <section class="testimonials section" id="testimonials">
+      <section class="proof section" id="testimonials">
           <h2 class="section-title">See What Others Are Saying</h2>
 
-          <div class="testimonials-container container grid">
-            <div class="testimonial-card">
-              <img src="assets/img/Testimonials 1.jpg" alt="Testimonial 1" class="testimonial-img">
-            </div>
-
-            <div class="testimonial-card">
-              <img src="assets/img/Testimonials 2.jpg" alt="Testimonial 2" class="testimonial-img">
-            </div>
-
-            <div class="testimonial-card">
-              <img src="assets/img/Testimonials 3.jpg" alt="Testimonial 3" class="testimonial-img">
-            </div>
-
-            <!-- Wrap the last 2 inside a row -->
-            <div class="testimonial-row">
-              <div class="testimonial-card">
-                <img src="assets/img/Testimonial 4.jpg" alt="Testimonial 4" class="testimonial-img">
+          <div class="proof-container container grid">
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
               </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Testimonials 1.jpg" alt="Testimonial 1" class="proof-img">
+              </div>
+            </div>
 
-              <div class="testimonial-card">
-                <img src="assets/img/Testimonial 5.jpg" alt="Testimonial 5" class="testimonial-img">
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Testimonials 2.jpg" alt="Testimonial 2" class="proof-img">
+              </div>
+            </div>
+
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Testimonials 3.jpg" alt="Testimonial 3" class="proof-img">
+              </div>
+            </div>
+
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Testimonial 4.jpg" alt="Testimonial 4" class="proof-img">
+              </div>
+            </div>
+
+            <div class="proof-card">
+              <div class="proof-card-header">
+                <div class="mockup-dots">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="proof-img-container">
+                <img src="assets/img/Testimonial 5.jpg" alt="Testimonial 5" class="proof-img">
               </div>
             </div>
           </div>
-        </section>
+      </section>
 
 
 
@@ -602,7 +654,19 @@
 
 
 
-
+    <!--=============== PORTFOLIO VIEWER MODAL ===============-->
+    <div class="portfolio-modal" id="portfolio-modal">
+      <span class="portfolio-modal-close" id="portfolio-modal-close"><i class="ri-close-line"></i></span>
+      <div class="portfolio-modal-content">
+        <div class="portfolio-spinner" id="portfolio-spinner">
+          <div class="spinner-content">
+            <div class="spinner-ring"></div>
+            <p class="spinner-text">Loading Preview...</p>
+          </div>
+        </div>
+        <iframe id="portfolio-iframe" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
 
     <!--=============== GSAP ===============-->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -630,6 +694,7 @@
     <script src="assets/js/main.js"></script>
   </body>
 </html>
+
 
 
 
