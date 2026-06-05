@@ -518,80 +518,248 @@ img {
   font-size: var(--small-font-size);
 }
 
-/*=============== TESTIMONIALS ===============*/
-.testimonials-container {
+/*=============== PROOF CARDS (Case Studies & Testimonials) ===============*/
+.proof-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  justify-content: center;
 }
 
-.testimonial-card {
-  background-color: var(--container-color);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  text-align: center;
-  flex: 1; 
-  max-width: 450px; 
-  box-shadow: 0 6px 12px hsla(var(--second-hue), 32%, 8%, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.proof-card {
+  background: var(--container-color);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 106, 0, 0.08);
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.testimonial-card:hover {
+.proof-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 18px hsla(var(--second-hue), 32%, 8%, 0.35);
+  border-color: var(--first-color);
+  box-shadow: 0 12px 24px rgba(255, 106, 0, 0.12);
 }
 
-.testimonial-img {
+/* Browser-window mockup header */
+.proof-card-header {
+  background-color: rgba(25, 31, 54, 0.6);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mockup-dots {
+  display: flex;
+  column-gap: 6px;
+}
+
+.mockup-dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff5f56;
+}
+
+.mockup-dots span:nth-child(2) {
+  background-color: #ffbd2e;
+}
+
+.mockup-dots span:nth-child(3) {
+  background-color: #27c93f;
+}
+
+.mockup-title {
+  font-size: var(--small-font-size);
+  color: var(--text-color);
+  margin-left: auto;
+  font-weight: var(--font-medium);
+}
+
+/* Image container */
+.proof-img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-img {
   width: 100%;
   height: auto;
-  border-radius: 1rem;
+  display: block;
   object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
-@media (min-width: 992px) {
-  .testimonials-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    justify-content: center;
-  }
+.proof-card:hover .proof-img {
+  transform: scale(1.05);
+}
 
-  /* row 2 should only take 2 cards and be centered */
-  .testimonial-card:nth-child(4),
-  .testimonial-card:nth-child(5) {
-    grid-column: span 1;
-  }
-
-  .testimonial-card:nth-child(4) {
-    grid-column: 2; /* starts in middle column */
-  }
-
-  .testimonial-card:nth-child(5) {
-    grid-column: 3; /* sits next to it */
-  }
-
-  .testimonial-row {
-    grid-column: 1 / -1; /* makes the row span full width of grid */
-    display: flex;
-    justify-content: center; /* centers the two cards */
-    gap: 2rem; /* spacing between them */
+/* Responsive proof grid */
+@media screen and (max-width: 768px) {
+  .proof-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile / tablet fix */
-@media (max-width: 991px) {
-  .testimonial-row {
-    display: grid;           /* switch back to grid */
-    grid-template-columns: 1fr; 
-    gap: 2rem;               /* same spacing as top grid */
+@media screen and (max-width: 460px) {
+  .proof-container {
+    grid-template-columns: 1fr;
   }
 }
 
+/*=============== LIGHT THEME - Proof Cards ===============*/
+.light-theme .proof-card-header {
+  background-color: rgba(240, 240, 245, 0.8);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .proof-card {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.light-theme .proof-card:hover {
+  border-color: var(--first-color);
+  box-shadow: 0 12px 24px rgba(255, 106, 0, 0.1);
+}
 
 
+/*=============== PORTFOLIO VIEWER MODAL ===============*/
+.portfolio-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 14, 30, 0.92);
+  backdrop-filter: blur(12px);
+  display: grid;
+  place-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
 
+.portfolio-modal.show-portfolio-modal {
+  opacity: 1;
+  pointer-events: auto;
+}
 
+.portfolio-modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  color: var(--white-color);
+  font-size: 2.25rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.portfolio-modal-close:hover {
+  color: var(--first-color);
+  transform: rotate(90deg);
+}
+
+.portfolio-modal-content {
+  position: relative;
+  width: 85%;
+  height: 85vh;
+  max-width: 1100px;
+  background-color: var(--body-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 106, 0, 0.15);
+  animation: portfolioFadeIn 0.3s ease;
+}
+
+@keyframes portfolioFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.portfolio-modal-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Loading spinner */
+.portfolio-spinner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--body-color);
+  z-index: 5;
+  transition: opacity 0.3s ease;
+}
+
+.portfolio-spinner.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1.25rem;
+}
+
+.spinner-ring {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 106, 0, 0.15);
+  border-top-color: var(--first-color);
+  border-radius: 50%;
+  animation: spinnerRotate 0.8s linear infinite;
+}
+
+.spinner-text {
+  font-size: var(--normal-font-size);
+  color: var(--text-color);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.5px;
+  animation: spinnerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spinnerRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinnerPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Portfolio modal responsive */
+@media screen and (max-width: 768px) {
+  .portfolio-modal-content {
+    width: 95%;
+    height: 75vh;
+    border-radius: 0.75rem;
+  }
+
+  .portfolio-modal-close {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.75rem;
+  }
+}
 
 /*=============== RESUME ===============*/
 .resume-container {
